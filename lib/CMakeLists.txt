@@ -55,29 +55,6 @@ if(NOT DEFINED COMPILER_NAME)
 endif()
 
 ########################################################################
-# Special clang flag so flag checks can fail
-########################################################################
-if(COMPILER_NAME MATCHES "GNU")
-    include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("-Werror=unused-command-line-argument" HAVE_WERROR_UNUSED_CMD_LINE_ARG)
-    if(HAVE_WERROR_UNUSED_CMD_LINE_ARG)
-        set(VOLK_FLAG_CHECK_FLAGS "-Werror=unused-command-line-argument")
-    endif()
-endif()
-
-########################################################################
-# check for posix_memalign, since some OSs do not internally define
-# _XOPEN_SOURCE or _POSIX_C_SOURCE; they leave this to the user.
-########################################################################
-
-include(CheckSymbolExists)
-CHECK_SYMBOL_EXISTS(posix_memalign stdlib.h HAVE_POSIX_MEMALIGN)
-
-if(HAVE_POSIX_MEMALIGN)
-      add_definitions(-DHAVE_POSIX_MEMALIGN)
-endif(HAVE_POSIX_MEMALIGN)
-
-########################################################################
 # detect x86 flavor of CPU
 ########################################################################
 if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "^(i.86|x86|x86_64|amd64|AMD64)$")
